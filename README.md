@@ -1,5 +1,7 @@
 # KJV Bible — iOS Reader
 
+**Live Website:** [https://biblereader-kjv.web.app](https://biblereader-kjv.web.app)
+
 A clean, offline SwiftUI Bible reader for iPhone and iPad featuring the King James Version.
 
 ## Features

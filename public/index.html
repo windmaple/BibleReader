@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KJV Bible — Offline SwiftUI Reader for iPhone &amp; iPad</title>
+  <meta name="description" content="A clean, offline SwiftUI King James Version (KJV) Bible reader for iOS 17+ featuring all 66 books and 31,102 verses bundled on-device, Dynamic Type serif typography, 5-color verse highlights, bookmarks, and SwiftData persistence." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KJV Bible — Offline SwiftUI Reader for iOS" />
+  <meta property="og:description" content="All 66 books, 1,189 chapters, and 31,102 verses of the King James Version bundled offline with SwiftData highlights and bookmarks." />
+  <meta property="og:image" content="assets/icon.png" />
+  <meta name="theme-color" content="#f8f5ef" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- TOP NAVIGATION -->
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="#top" class="brand" id="nav-brand">
+        <img src="assets/icon.png" alt="KJV Bible Reader App Icon" class="brand__icon" />
+        <div>
+          <span class="brand__title">KJV Bible</span>
+          <span class="brand__subtitle">Offline iOS 17+ Reader · SwiftUI &amp; SwiftData</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#reader-preview" id="nav-link-preview">Interactive Reader</a>
+        <a href="#features" id="nav-link-features">Features</a>
+        <a href="#architecture" id="nav-link-architecture">Architecture</a>
+      </nav>
+
+      <div>
+        <a href="https://github.com/windmaple/BibleReader" target="_blank" rel="noopener" class="btn btn--primary" id="nav-btn-github">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO & INTERACTIVE KJV READER -->
+    <section class="hero" id="reader-preview">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <div class="eyebrow">KING JAMES VERSION · 100% OFFLINE · ZERO ACCOUNTS</div>
+          <h1>Quiet, Reverent Scripture Reading for iPhone &amp; iPad.</h1>
+          <p class="hero__lead">
+            <strong>KJV Bible Reader</strong> bundles the complete Authorized King James text directly inside a fast, distraction-free SwiftUI app. Read with Dynamic Type serif typography, highlight verses in five translucent inks, bookmark passages, and store everything privately on-device with SwiftData.
+          </p>
+
+          <div class="hero__actions">
+            <a href="https://github.com/windmaple/BibleReader" target="_blank" rel="noopener" class="btn btn--primary" id="hero-btn-github">
+              Open Xcode Project on GitHub
+            </a>
+            <a href="#architecture" class="btn btn--secondary" id="hero-btn-arch">
+              Explore SwiftData Schema
+            </a>
+          </div>
+
+          <div class="canon-stats">
+            <div>
+              <div class="canon-stat__num">66</div>
+              <div class="canon-stat__label">Books (Old &amp; New Testament)</div>
+            </div>
+            <div>
+              <div class="canon-stat__num">1,189</div>
+              <div class="canon-stat__label">Chapters with Instant Jump</div>
+            </div>
+            <div>
+              <div class="canon-stat__num">31,102</div>
+              <div class="canon-stat__label">Bundled Offline Verses</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE INTERACTIVE READER PREVIEW -->
+        <div class="device-frame" id="device-frame" data-theme="light" aria-label="Interactive KJV Reader Preview">
+          <div class="reader-toolbar">
+            <div class="toolbar-group">
+              <button type="button" class="icon-btn" id="btn-prev-chapter" aria-label="Previous Chapter">‹</button>
+              <select class="chapter-picker-select" id="chapter-select" aria-label="Choose Book and Chapter"></select>
+              <button type="button" class="icon-btn" id="btn-next-chapter" aria-label="Next Chapter">›</button>
+            </div>
+
+            <div class="toolbar-group">
+              <span class="copy-toast" id="copy-toast" aria-live="polite"></span>
+              <button type="button" class="icon-btn" id="btn-font-dec" aria-label="Decrease Font Size">A−</button>
+              <button type="button" class="icon-btn" id="btn-font-inc" aria-label="Increase Font Size">A+</button>
+              <button type="button" class="icon-btn" id="btn-theme-toggle" aria-label="Toggle Dark Mode">☾ Dark</button>
+            </div>
+          </div>
+
+          <!-- READ TAB PANE -->
+          <div class="reader-viewport" id="pane-read">
+            <div class="chapter-heading">
+              <h2 class="chapter-heading__book" id="chapter-title">John 1</h2>
+              <div class="chapter-heading__sub" id="chapter-subtitle">The Gospel According to Saint John · Tap any verse to highlight or bookmark</div>
+            </div>
+            <div class="verse-list" id="verse-list"></div>
+          </div>
+
+          <!-- SAVED TAB PANE -->
+          <div class="reader-viewport" id="pane-saved" hidden>
+            <div class="chapter-heading">
+              <h2 class="chapter-heading__book">Saved Passages</h2>
+              <div class="chapter-heading__sub">Bookmarks &amp; Highlights stored via SwiftData · Tap an entry to jump to verse</div>
+            </div>
+            <div class="saved-list" id="saved-list"></div>
+          </div>
+
+          <!-- SELECTION ACTION BAR -->
+          <div class="selection-bar" id="selection-bar" hidden>
+            <div class="swatch-row" role="group" aria-label="Highlight Colors">
+              <button type="button" class="swatch-btn swatch-btn--yellow" data-swatch="yellow" id="swatch-yellow" aria-label="Highlight Yellow"></button>
+              <button type="button" class="swatch-btn swatch-btn--green" data-swatch="green" id="swatch-green" aria-label="Highlight Green"></button>
+              <button type="button" class="swatch-btn swatch-btn--blue" data-swatch="blue" id="swatch-blue" aria-label="Highlight Blue"></button>
+              <button type="button" class="swatch-btn swatch-btn--pink" data-swatch="pink" id="swatch-pink" aria-label="Highlight Pink"></button>
+              <button type="button" class="swatch-btn swatch-btn--orange" data-swatch="orange" id="swatch-orange" aria-label="Highlight Orange"></button>
+              <button type="button" class="swatch-clear" id="btn-clear-hl">Clear</button>
+            </div>
+            <div class="action-btns">
+              <button type="button" class="icon-btn" id="btn-bookmark-sel">🔖 Bookmark</button>
+              <button type="button" class="icon-btn" id="btn-copy-sel">Copy Ref</button>
+            </div>
+          </div>
+
+          <!-- BOTTOM TAB BAR -->
+          <div class="device-tabbar" role="tablist">
+            <button type="button" class="tabbar-btn is-active" id="tab-btn-read" role="tab">📖 Read</button>
+            <button type="button" class="tabbar-btn" id="tab-btn-saved" role="tab">🔖 Saved (3)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">DESIGNED FOR FOCUSED STUDY</div>
+          <h2 class="section-title">Crafted Around the Text</h2>
+          <p class="section-desc">
+            Every interaction is built with native iOS 17 SwiftUI primitives—fast chapter navigation, multi-verse selection, and instant offline lookup.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-card__tag">OFFLINE CANON</span>
+            <h3>Bundled kjv.json Corpus</h3>
+            <p>
+              All 66 books, 1,189 chapters, and 31,102 verses of the public-domain King James Version are bundled directly in the app binary—zero network requests, zero latency, and complete privacy.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__tag">SWIFTDATA ANNOTATIONS</span>
+            <h3>5-Color Highlights &amp; Bookmarks</h3>
+            <p>
+              Tap one or multiple verses to apply translucent Yellow, Green, Blue, Pink, or Orange highlights or ribbon bookmarks. Every annotation is persisted locally using iOS 17 <code>@Model</code> SwiftData containers.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-card__tag">ERGONOMIC NAVIGATION</span>
+            <h3>Searchable Book Picker &amp; Swipes</h3>
+            <p>
+              Tap the navigation title to search any book and jump directly to a chapter grid, move across chapters with horizontal swipe gestures, and automatically resume right where you left off.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE & BUILD -->
+    <section class="section" id="architecture">
+      <div class="container arch-grid">
+        <div>
+          <div class="eyebrow">NATIVE SWIFTUI + SWIFTDATA</div>
+          <h2 class="section-title">Clean, Zero-Dependency Xcode Project</h2>
+          <p class="section-desc" style="margin-bottom: 20px;">
+            Built with Xcode 16 synchronized folders, <code>@Observable</code> state management, and <code>SwiftData</code> queries filtered per chapter for smooth 120Hz ProMotion scrolling.
+          </p>
+          <a href="https://github.com/windmaple/BibleReader" target="_blank" rel="noopener" class="btn btn--primary" id="arch-btn-github">
+            Clonewindmaple/BibleReader on GitHub
+          </a>
+        </div>
+
+        <pre class="code-card"><code><span class="muted">// Project Structure (Xcode 16+ / iOS 17.0+)</span>
+<span class="accent">BibleReader/</span>
+├── BibleReaderApp.swift      <span class="muted">// App entry &amp; SwiftData ModelContainer</span>
+├── Models/
+│   ├── BibleStore.swift      <span class="muted">// Loads kjv.json, clamping &amp; citation formatting</span>
+│   ├── ReaderState.swift     <span class="muted">// Persisted chapter location &amp; scroll anchor</span>
+│   └── Annotations.swift     <span class="muted">// @Model Bookmark &amp; Highlight + 5 swatch colors</span>
+├── Views/
+│   ├── ContentView.swift     <span class="muted">// TabView (Read &amp; Saved)</span>
+│   ├── ReaderScreen.swift    <span class="muted">// ChapterView, VerseRow, SelectionBar</span>
+│   ├── BookPickerView.swift  <span class="muted">// Searchable book list &amp; chapter grid</span>
+│   └── SavedScreen.swift     <span class="muted">// Bookmarks &amp; highlights with deep-link jump</span>
+└── Resources/kjv.json        <span class="muted">// Complete KJV text (66 books, 31,102 verses)</span></code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>KJV BIBLE — OFFLINE IOS READER (PUBLIC DOMAIN KJV TEXT)</span>
+      <span>BUILT WITH SWIFTUI &amp; SWIFTDATA · <a href="https://github.com/windmaple/BibleReader" target="_blank" rel="noopener" id="footer-link-github">GITHUB</a></span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
